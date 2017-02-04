@@ -8,13 +8,17 @@ var PATHS = {
 
 module.exports = {
     entry : {
-        'home': path.join(PATHS.src, "index.jsx")
+        'home': path.join(PATHS.src, "index.js")
     },
 
     output : {
         path: path.join(PATHS.dist, 'js'),
         filename: '[name].entry.js',
         chunkFilename: '[id].chunk.js'
+    },
+
+    externals : {
+        'jquery': 'jQuery'
     },
 
     devtool: "source-map",
@@ -33,11 +37,9 @@ module.exports = {
     },
 
     plugins: [
-        function () {
-            this.plugin('watch-run', function (watching, callback) {
-                console.log('\nBegin compile at ' + new Date());
-                callback();
-            })
-        }
+        // new webpack.ProvidePlugin({
+        //     // $: path.join(__dirname, "node_modules", "jquery/dist/jquery"),
+        //     // jQuery: path.join(__dirname, "node_modules", "jquery/dist/jquery"),
+        // })
     ]
 }

@@ -16,8 +16,7 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "rigby": "1.4.0",
-    "webpack": "^1.13.2",
-    "jQuery": "^1.7.4"
+    "webpack": "^1.13.2"
   },
   "dependencies": {
     "react": "^15.3.2",
