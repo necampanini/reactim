@@ -54,14 +54,13 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _ContainerContainer = __webpack_require__(178);
+	var _ProductsContainer = __webpack_require__(180);
 	
-	var _ContainerContainer2 = _interopRequireDefault(_ContainerContainer);
+	var _ProductsContainer2 = _interopRequireDefault(_ProductsContainer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	_reactDom2.default.render(_react2.default.createElement(_ContainerContainer2.default, null), document.getElementById('mount-point'));
-	//todo: react render
+	_reactDom2.default.render(_react2.default.createElement(_ProductsContainer2.default, {}), document.getElementById('container-mount'));
 
 /***/ },
 /* 1 */
@@ -21498,7 +21497,14 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 178 */
+/* 178 */,
+/* 179 */
+/***/ function(module, exports) {
+
+	module.exports = jQuery;
+
+/***/ },
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21525,114 +21531,68 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var ContainerContainer = function (_React$Component) {
-	    _inherits(ContainerContainer, _React$Component);
+	var ProductsContainer = function (_React$Component) {
+	    _inherits(ProductsContainer, _React$Component);
 	
-	    function ContainerContainer(props) {
-	        _classCallCheck(this, ContainerContainer);
+	    function ProductsContainer(props) {
+	        _classCallCheck(this, ProductsContainer);
 	
-	        var _this2 = _possibleConstructorReturn(this, (ContainerContainer.__proto__ || Object.getPrototypeOf(ContainerContainer)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (ProductsContainer.__proto__ || Object.getPrototypeOf(ProductsContainer)).call(this, props));
 	
-	        _this2.renderGetButton = _this2.renderGetButton.bind(_this2);
-	        _this2.goGetLeaderBoardList = _this2.goGetLeaderBoardList.bind(_this2);
-	        _this2.renderLeaderBoardEntries = _this2.renderLeaderBoardEntries.bind(_this2);
+	        _this.handleToggle = _this.handleToggle.bind(_this);
 	
-	        _this2.state = {
-	            leaderBoardEntries: []
+	        _this.state = {
+	            testSuccessful: true
 	        };
-	        return _this2;
+	        return _this;
 	    }
 	
-	    _createClass(ContainerContainer, [{
+	    _createClass(ProductsContainer, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            this.goGetLeaderBoardList();
+	            console.log('component did, mount.');
+	            console.log(this.state.testSuccessful);'';
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                this.renderLeaderBoardEntries()
-	            );
-	        }
-	
-	        //render helpers
-	
-	    }, {
-	        key: 'renderLeaderBoardEntries',
-	        value: function renderLeaderBoardEntries() {
-	            debugger;
-	            var entries = this.state.leaderBoardEntries || [];
-	
-	            var nodes = entries.map(function (entry, key) {
-	                return _react2.default.createElement(
+	                'test success: ',
+	                this.state.testSuccessful.toString(),
+	                _react2.default.createElement(
 	                    'div',
-	                    { key: key + entry.Title },
+	                    null,
 	                    _react2.default.createElement(
-	                        'h2',
-	                        null,
-	                        entry.Title
-	                    ),
-	                    _react2.default.createElement(
-	                        'h3',
-	                        null,
-	                        entry.VoteCount
+	                        'button',
+	                        { onClick: this.handleToggle },
+	                        'click for toggle'
 	                    )
-	                );
-	            });
-	
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                nodes
+	                )
 	            );
 	        }
-	    }, {
-	        key: 'renderGetButton',
-	        value: function renderGetButton() {
-	            return _react2.default.createElement(
-	                'button',
-	                { onClick: this.goGetLeaderBoardList },
-	                'GO GET LIST'
-	            );
-	        }
-	    }, {
-	        key: 'goGetLeaderBoardList',
-	        value: function goGetLeaderBoardList() {
-	            debugger;
-	            var urlPath = '/Home/GetAllLeaderBoardData/';
 	
-	            var _this = this;
+	        // handleToggle = () => { //babel not form
 	
-	            _jquery2.default.ajax({
-	                url: urlPath,
-	                success: function success(result) {
-	                    _this.setState({
-	                        leaderBoardEntries: result
-	                    });
-	                },
-	                error: function error(err, xhrStatus) {
-	                    console.log('error: ' + err.stack);
-	                    console.log('xhr status: ' + xhrStatus);
-	                }
+	    }, {
+	        key: 'handleToggle',
+	        value: function handleToggle() {
+	            var _this2 = this;
+	
+	            var nextState = !this.state.testSuccessful;
+	
+	            this.setState({ testSuccessful: nextState }, function () {
+	                return console.log(_this2.state.testSuccessful);
 	            });
 	        }
 	    }]);
 	
-	    return ContainerContainer;
+	    return ProductsContainer;
 	}(_react2.default.Component);
 	
-	exports.default = ContainerContainer;
-
-/***/ },
-/* 179 */
-/***/ function(module, exports) {
-
-	module.exports = jQuery;
+	exports.default = ProductsContainer;
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=home.entry.js.map
+//# sourceMappingURL=products.entry.js.map

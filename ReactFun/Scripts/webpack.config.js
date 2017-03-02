@@ -8,7 +8,8 @@ var PATHS = {
 
 module.exports = {
     entry : {
-        'home': path.join(PATHS.src, "index.js")
+        'home': path.join(PATHS.src, "index.js"),
+        'products': path.join(PATHS.src, "products.js")
     },
 
     output : {

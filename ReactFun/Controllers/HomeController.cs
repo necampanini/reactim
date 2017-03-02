@@ -13,6 +13,11 @@ namespace ReactFun.Controllers
             return View();
         }
 
+        public ActionResult Products()
+        {
+            return View();
+        }
+
         public async Task<JsonResult> GetAllLeaderBoardData()
         {
             var pretendList = new List<LeaderBoardEntry>
