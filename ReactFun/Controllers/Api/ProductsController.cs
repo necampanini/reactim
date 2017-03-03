@@ -12,7 +12,7 @@ namespace ReactFun.Controllers
     {
         Product[] products = new Product[]
         {
-            new Product { Id = 1 },
+            new Product {Id = 1 },
             new Product {Id = 2 },
             new Product {Id = 3 }
         };
