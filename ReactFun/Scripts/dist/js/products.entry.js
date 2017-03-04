@@ -21498,12 +21498,7 @@
 
 /***/ },
 /* 178 */,
-/* 179 */
-/***/ function(module, exports) {
-
-	module.exports = jQuery;
-
-/***/ },
+/* 179 */,
 /* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -21519,9 +21514,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _jquery = __webpack_require__(179);
+	var _ProductsStore = __webpack_require__(181);
 	
-	var _jquery2 = _interopRequireDefault(_jquery);
+	var _ProductsStore2 = _interopRequireDefault(_ProductsStore);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -21541,17 +21536,24 @@
 	
 	        _this.handleToggle = _this.handleToggle.bind(_this);
 	
-	        _this.state = {
-	            testSuccessful: true
-	        };
+	        _this.state = _ProductsStore2.default.getState();
 	        return _this;
 	    }
 	
 	    _createClass(ProductsContainer, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            console.log('component did, mount.');
-	            console.log(this.state.testSuccessful);'';
+	            this.callbackIndex = _ProductsStore2.default.listen(this.onChange);
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            _ProductsStore2.default.mute(this.callbackIndex);
+	        }
+	    }, {
+	        key: 'onChange',
+	        value: function onChange(state) {
+	            this.setState(state);
 	        }
 	    }, {
 	        key: 'render',
@@ -21569,22 +21571,30 @@
 	                        { onClick: this.handleToggle },
 	                        'click for toggle'
 	                    )
+	                ),
+	                _react2.default.createElement('hr', null),
+	                _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    _react2.default.createElement(
+	                        'button',
+	                        { onClick: this.loadProducts },
+	                        'click to load'
+	                    )
 	                )
 	            );
 	        }
-	
-	        // handleToggle = () => { //babel not form
-	
 	    }, {
 	        key: 'handleToggle',
 	        value: function handleToggle() {
-	            var _this2 = this;
-	
 	            var nextState = !this.state.testSuccessful;
 	
-	            this.setState({ testSuccessful: nextState }, function () {
-	                return console.log(_this2.state.testSuccessful);
-	            });
+	            Rigby.dispatch('updateForm', 'testSuccessful', nextState);
+	        }
+	    }, {
+	        key: 'loadProducts',
+	        value: function loadProducts() {
+	            Rigby.dispatch('retrieveAllProducts');
 	        }
 	    }]);
 	
@@ -21592,6 +21602,195 @@
 	}(_react2.default.Component);
 	
 	exports.default = ProductsContainer;
+
+/***/ },
+/* 181 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _rigby = __webpack_require__(182);
+	
+	var _rigby2 = _interopRequireDefault(_rigby);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ProductsStore = _rigby2.default.createStore('ProductsStore', {
+	
+	    state: {
+	        testSuccessful: true,
+	        products: []
+	    },
+	
+	    actions: {
+	        fetchHeader: {
+	            credentials: 'same-origin'
+	        },
+	
+	        updateForm: function updateForm(property, value) {
+	            this.state[property] = value;
+	
+	            console.log(this.state);
+	
+	            this.emitChange();
+	        },
+	        retrieveAllProducts: function retrieveAllProducts() {
+	            fetch('/api/Products', this.fetchHeader).then(function (data) {
+	                return data.json();
+	            }).then(function (data) {
+	                _rigby2.default.dispatch('setProducts', data);
+	            });
+	        },
+	        setProducts: function setProducts(products) {
+	            this.state.products = products;
+	            console.log(this.state);
+	        }
+	    }
+	});
+	
+	module.exports = ProductsStore;
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	(function webpackUniversalModuleDefinition(root, factory) {
+		if(true)
+			module.exports = factory();
+		else if(typeof define === 'function' && define.amd)
+			define([], factory);
+		else if(typeof exports === 'object')
+			exports["Rigby"] = factory();
+		else
+			root["Rigby"] = factory();
+	})(this, function() {
+	return /******/ (function(modules) { // webpackBootstrap
+	/******/ 	// The module cache
+	/******/ 	var installedModules = {};
+	/******/
+	/******/ 	// The require function
+	/******/ 	function __webpack_require__(moduleId) {
+	/******/
+	/******/ 		// Check if module is in cache
+	/******/ 		if(installedModules[moduleId])
+	/******/ 			return installedModules[moduleId].exports;
+	/******/
+	/******/ 		// Create a new module (and put it into the cache)
+	/******/ 		var module = installedModules[moduleId] = {
+	/******/ 			exports: {},
+	/******/ 			id: moduleId,
+	/******/ 			loaded: false
+	/******/ 		};
+	/******/
+	/******/ 		// Execute the module function
+	/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+	/******/
+	/******/ 		// Flag the module as loaded
+	/******/ 		module.loaded = true;
+	/******/
+	/******/ 		// Return the exports of the module
+	/******/ 		return module.exports;
+	/******/ 	}
+	/******/
+	/******/
+	/******/ 	// expose the modules object (__webpack_modules__)
+	/******/ 	__webpack_require__.m = modules;
+	/******/
+	/******/ 	// expose the module cache
+	/******/ 	__webpack_require__.c = installedModules;
+	/******/
+	/******/ 	// __webpack_public_path__
+	/******/ 	__webpack_require__.p = "";
+	/******/
+	/******/ 	// Load entry module and return exports
+	/******/ 	return __webpack_require__(0);
+	/******/ })
+	/************************************************************************/
+	/******/ ([
+	/* 0 */
+	/***/ function(module, exports) {
+	
+		"use strict";
+		
+		exports.__esModule = true;
+		
+		function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+		
+		var Stores = {};
+		
+		var Store = function () {
+		    function Store(name) {
+		        _classCallCheck(this, Store);
+		
+		        this.state = {};
+		        this.callbacks = [];
+		
+		        Stores[name] = this;
+		    }
+		
+		    Store.dispatch = function dispatch(type) {
+		        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+		            args[_key - 1] = arguments[_key];
+		        }
+		
+		        for (var key in Stores) {
+		            if (Stores.hasOwnProperty(key)) {
+		                Stores[key].handle(type, args);
+		            }
+		        }
+		    };
+		
+		    Store.createStore = function createStore(name, store) {
+		        var s = new Store(name);
+		        Object.assign(s.state, store.state || {});
+		        Object.assign(s, store.actions || {});
+		        return s;
+		    };
+		
+		    Store.prototype.emitChange = function emitChange() {
+		        this.callbacks.forEach(function (callback) {
+		            callback(this.state);
+		        }, this);
+		    };
+		
+		    Store.prototype.getState = function getState() {
+		        return this.state;
+		    };
+		
+		    Store.prototype.handle = function handle(type, args) {
+		        if (type in this) {
+		            this[type].apply(this, args);
+		        }
+		    };
+		
+		    Store.prototype.listen = function listen(callback) {
+		        return this.callbacks.push(callback) - 1;
+		    };
+		
+		    Store.prototype.mute = function mute(index) {
+		        this.callbacks.splice(index, 1);
+		    };
+		
+		    return Store;
+		}();
+		
+		exports["default"] = Store;
+		
+		
+		var createStore = Store.createStore;
+		var dispatch = Store.dispatch;
+		
+		exports.createStore = createStore;
+		exports.dispatch = dispatch;
+		
+		
+		window.Rigby = Store;
+	
+	/***/ }
+	/******/ ])
+	});
+	;
+	//# sourceMappingURL=rigby.js.map
 
 /***/ }
 /******/ ]);

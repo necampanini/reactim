@@ -1,5 +1,6 @@
 import React from 'react'
-import $ from 'jquery'
+import ProductsStore from '../Stores/ProductsStore.jsx'
+
 
 export default class ProductsContainer extends React.Component {
     constructor(props) {
@@ -7,14 +8,19 @@ export default class ProductsContainer extends React.Component {
 
         this.handleToggle = this.handleToggle.bind(this);
 
-        this.state = {
-            testSuccessful: true
-        };
+        this.state = ProductsStore.getState();
     }
 
     componentDidMount() {
-        console.log('component did, mount.')
-        console.log(this.state.testSuccessful);''
+        this.callbackIndex = ProductsStore.listen(this.onChange);
+    }
+
+    componentWillUnmount() {
+        ProductsStore.mute(this.callbackIndex);
+    }
+
+    onChange(state) {
+        this.setState(state);
     }
 
     render() {
@@ -26,17 +32,25 @@ export default class ProductsContainer extends React.Component {
                         click for toggle
                     </button>
                 </div>
+                <hr/>
+                <div>
+                    <button onClick={this.loadProducts}>
+                        click to load
+                    </button>
+                </div>
             </div>
             
         )
     }
 
-    // handleToggle = () => { //babel not form
     handleToggle() {
         var nextState = !this.state.testSuccessful;
 
-        this.setState({testSuccessful: nextState},
-            () => console.log(this.state.testSuccessful));
+        Rigby.dispatch('updateForm', 'testSuccessful', nextState);
+    }
+
+    loadProducts() {
+        Rigby.dispatch('retrieveAllProducts')
     }
     
 }
