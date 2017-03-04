@@ -14,25 +14,28 @@ var ProductsStore = Rigby.createStore('ProductsStore', {
 
         updateForm(property, value){
             this.state[property] = value;
-
             console.log(this.state);
-
             this.emitChange();
         },
 
         retrieveAllProducts() {
-            fetch('/api/Products', this.fetchHeader)
-            .then(function(data){
-                return data.json()
+            Rigby.dispatch('callFetch',"/api/products/", this.fetchHeader, 'setProducts');
+        },
+
+        callFetch(uri, header, callback){
+            fetch(uri, header)
+            .then(function(response){
+                return response.json()
             })
-            .then(function(data) {
-                Rigby.dispatch('setProducts', data)
-            })
+            .then(function(resultingData){
+                Rigby.dispatch(callback, resultingData)
+            });
         },
 
         setProducts(products) {
+            debugger;
             this.state.products = products;
-            console.log(this.state);
+            this.emitChange();
         }
     }
 });

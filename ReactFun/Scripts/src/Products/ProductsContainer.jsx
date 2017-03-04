@@ -7,6 +7,7 @@ export default class ProductsContainer extends React.Component {
         super(props);
 
         this.handleToggle = this.handleToggle.bind(this);
+        this.onChange = this.onChange.bind(this);
 
         this.state = ProductsStore.getState();
     }
@@ -20,6 +21,7 @@ export default class ProductsContainer extends React.Component {
     }
 
     onChange(state) {
+
         this.setState(state);
     }
 
@@ -38,9 +40,20 @@ export default class ProductsContainer extends React.Component {
                         click to load
                     </button>
                 </div>
+                {this.renderCurrentProducts()}
             </div>
             
         )
+    }
+
+    renderCurrentProducts(){
+        debugger;
+        if (this.state.products.length == 0)
+            return <div>EMPTY</div>;
+
+        return this.state.products.map((i, k) => {
+            <div><hr/>i am product with id: {i.Id}</div>
+        });
     }
 
     handleToggle() {

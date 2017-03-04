@@ -21535,6 +21535,7 @@
 	        var _this = _possibleConstructorReturn(this, (ProductsContainer.__proto__ || Object.getPrototypeOf(ProductsContainer)).call(this, props));
 	
 	        _this.handleToggle = _this.handleToggle.bind(_this);
+	        _this.onChange = _this.onChange.bind(_this);
 	
 	        _this.state = _ProductsStore2.default.getState();
 	        return _this;
@@ -21553,6 +21554,7 @@
 	    }, {
 	        key: 'onChange',
 	        value: function onChange(state) {
+	
 	            this.setState(state);
 	        }
 	    }, {
@@ -21581,8 +21583,29 @@
 	                        { onClick: this.loadProducts },
 	                        'click to load'
 	                    )
-	                )
+	                ),
+	                this.renderCurrentProducts()
 	            );
+	        }
+	    }, {
+	        key: 'renderCurrentProducts',
+	        value: function renderCurrentProducts() {
+	            debugger;
+	            if (this.state.products.length == 0) return _react2.default.createElement(
+	                'div',
+	                null,
+	                'EMPTY'
+	            );
+	
+	            return this.state.products.map(function (i, k) {
+	                _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    _react2.default.createElement('hr', null),
+	                    'i am product with id: ',
+	                    i.Id
+	                );
+	            });
 	        }
 	    }, {
 	        key: 'handleToggle',
@@ -21629,21 +21652,24 @@
 	
 	        updateForm: function updateForm(property, value) {
 	            this.state[property] = value;
-	
 	            console.log(this.state);
-	
 	            this.emitChange();
 	        },
 	        retrieveAllProducts: function retrieveAllProducts() {
-	            fetch('/api/Products', this.fetchHeader).then(function (data) {
-	                return data.json();
-	            }).then(function (data) {
-	                _rigby2.default.dispatch('setProducts', data);
+	            _rigby2.default.dispatch('callFetch', "/api/products/", this.fetchHeader, 'setProducts');
+	        },
+	        callFetch: function fetchem(uri, header, callback) {
+	            debugger;
+	            fetch(uri, header).then(function (response) {
+	                return response.json();
+	            }).then(function (resultingData) {
+	                _rigby2.default.dispatch(callback, resultingData);
 	            });
 	        },
 	        setProducts: function setProducts(products) {
+	            debugger;
 	            this.state.products = products;
-	            console.log(this.state);
+	            this.emitChange();
 	        }
 	    }
 	});
