@@ -21,7 +21,6 @@ export default class ProductsContainer extends React.Component {
     }
 
     onChange(state) {
-
         this.setState(state);
     }
 

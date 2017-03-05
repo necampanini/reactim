@@ -121,6 +121,7 @@
     <Content Include="Scripts\src\Container\ContainerFooter.jsx" />
     <Content Include="Scripts\src\Container\ContainerHeader.jsx" />
     <Content Include="Scripts\src\index.js" />
+    <Content Include="Scripts\src\products.js" />
     <Content Include="Scripts\webpack.config.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -148,6 +149,8 @@
     <Content Include="Scripts\package.json" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Home\Products.cshtml" />
+    <Content Include="Scripts\src\Stores\ProductsStore.jsx" />
+    <Content Include="Scripts\src\Products\ProductsContainer.jsx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -169,7 +172,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50731</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
